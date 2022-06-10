@@ -83,7 +83,7 @@ def simple_analysis(
     cl=None,
     pf=None,
     live_toml_path=None,
-    flowcell_size=512,
+    flowcell_size=126,
     dry_run=False,
     run_info=None,
     conditions=None,
@@ -110,7 +110,7 @@ def simple_analysis(
         Path to a `live` TOML configuration file for ReadFish. If this exists when
         the run starts it will be deleted
     flowcell_size : int
-        The number of channels on the flowcell, 512 for MinION and 3000 for PromethION
+        The number of channels on the flowcell, 126 for Flongle, 512 for MinION and 3000 for PromethION
     dry_run : bool
         If True unblocks are replaced with `stop_receiving` commands
     run_info : dict
@@ -444,7 +444,7 @@ def run(parser, args):
     # Parse configuration TOML
     # TODO: num_channels is not configurable here, should be inferred from client
     run_info, conditions, reference, caller_kwargs = get_run_info(
-        args.toml, num_channels=512
+        args.toml, num_channels=126
     )
     live_toml = Path("{}_live".format(args.toml))
 

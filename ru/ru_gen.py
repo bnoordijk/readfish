@@ -489,10 +489,15 @@ def run(parser, args):
 
     # FIXME: currently flowcell size is not included, this should be pulled from
     #  the read_until_client
+    
+    first_channel = read_until_client.first_channel
+    last_channel = read_until_client.last_channel
+    
+    print("Channels inferred:", first_channel, last_channel)
 
     read_until_client.run(
-        first_channel=args.channels[0],
-        last_channel=args.channels[-1],
+        first_channel=first_channel,
+        last_channel=last_channel,
     )
 
     try:
@@ -509,6 +514,7 @@ def run(parser, args):
             conditions=conditions,
             mapper=mapper,
             caller_kwargs=caller_kwargs,
+            flowcell_size=read_until_client.channel_count
         )
     except KeyboardInterrupt:
         pass

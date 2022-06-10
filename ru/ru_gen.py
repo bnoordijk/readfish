@@ -28,6 +28,7 @@ from ru.utils import (
 )
 from ru.utils import send_message, Severity, get_device, DecisionTracker
 
+print('You are using the OG BN version mah boi, good stuff')
 
 _help = "Run targeted sequencing"
 _cli = BASE_ARGS + (

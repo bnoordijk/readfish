@@ -441,19 +441,7 @@ def run(parser, args):
         logger.addHandler(h)
     logger.info(" ".join(sys.argv))
     print_args(args, logger=logger)
-
-    # Parse configuration TOML
-    # TODO: num_channels is not configurable here, should be inferred from client
-    run_info, conditions, reference, caller_kwargs = get_run_info(
-        args.toml, num_channels=126
-    )
-    live_toml = Path("{}_live".format(args.toml))
-
-    # Load Minimap2 index
-    logger.info("Initialising minimap2 mapper")
-    mapper = CustomMapper(reference)
-    logger.info("Mapper initialised")
-
+    
     position = get_device(args.device, host=args.host, port=args.port)
 
     read_until_client = RUClient(
@@ -462,6 +450,18 @@ def run(parser, args):
         filter_strands=True,
         cache_type=AccumulatingCache,
     )
+
+    # Parse configuration TOML
+    # TODO: num_channels is not configurable here, should be inferred from client
+    run_info, conditions, reference, caller_kwargs = get_run_info(
+        args.toml, num_channels=read_until_client.last_channel
+    )
+    live_toml = Path("{}_live".format(args.toml))
+
+    # Load Minimap2 index
+    logger.info("Initialising minimap2 mapper")
+    mapper = CustomMapper(reference)
+    logger.info("Mapper initialised")
 
     send_message(
         read_until_client.connection,
